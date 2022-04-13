@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lsj.stockSignal.dao.ArticleDAO;
 import com.lsj.stockSignal.dto.ArticleDTO;
 import com.lsj.stockSignal.dto.ArticlePagination;
-import com.lsj.stockSignal.exception.NotFoundEntity;
+import com.lsj.stockSignal.exception.ArticleNotFound;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -92,7 +92,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public ArticleDTO getArticle(int articleId) {
-		ArticleDTO article = this.articleDAO.findArticleById(articleId).orElseThrow(NotFoundEntity::new);
+		ArticleDTO article = this.articleDAO.findArticleById(articleId).orElseThrow(ArticleNotFound::new);
 		
 		
 		return article;

@@ -7,6 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lsj.stockSignal.dao.ReviewDAO;
 import com.lsj.stockSignal.dto.ReviewDTO;
+import com.lsj.stockSignal.exception.ArticleNotFound;
+import com.lsj.stockSignal.exception.PasswordNotCorrect;
+import com.lsj.stockSignal.exception.ReviewNotFound;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,8 +32,15 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public void deleteReivew(int reviewId) {
-		// TODO Auto-generated method stub
+	public void deleteReivew(ReviewDTO reviewDTO) {
+		
+		ReviewDTO review = this.reivewDAO.findReview(reviewDTO.getId()).orElseThrow(ReviewNotFound::new);
+		
+		if(!review.getPassword().equals(reviewDTO.getPassword())) {
+			throw new PasswordNotCorrect();
+		}
+		
+		this.reivewDAO.deleteReview(review.getId());
 		
 	}
 	

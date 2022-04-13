@@ -69,6 +69,41 @@
         		}
 			})
 		})
+		
+		$("button[name='review-delete-btn']").click(function() {
+			var password = prompt("비밀번호를 입력해주세요.");
+			
+			if(password == "") {
+				alert("비밀번호를 입력해주세요.");
+				
+			} else if(password === null) {
+				return;
+			} else {
+				console.log(password);
+				var li = $(this).parents("li")[0];
+				var reviewId = $(li).find("input[name='reviewId']").val();
+				console.log(reviewId);
+				var data = {
+					id: reviewId,
+					password
+				}
+				$.ajax({
+					data: JSON.stringify(data),
+	        		type: "DELETE",
+	        		contentType: "application/json; charset=utf-8",
+	        		datatype: "json",
+	        		url: "${contextPath}" + "/api/reviews",
+	        		success: function (data) {
+	        			alert("삭제 되었습니다.");
+	        			li.remove();
+	        		},
+	        		error: function() {
+	        			alert("삭제가 실패하였습니다.");
+	        		}
+				})
+				
+			}
+		})
 	})
 </script>
 	<header>
@@ -141,7 +176,7 @@
 							<span>${review.writer}</span> <span class="fw-lighter">${review.createdAt}</span>
 						</div>
 						<div class="col">
-							<button class="btn btn-danger">삭제</button>
+							<button name="review-delete-btn" class="btn btn-danger">삭제</button>
 						</div>
 					</div>
 					<div class="row mt-1">
