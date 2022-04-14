@@ -27,17 +27,18 @@ public class ArticleImageServiceImpl implements ArticleImageService {
 
 	private final ArticleImageDAO articleImageDAO;
 	
-	@Transactional
+	@Transactional(rollbackFor = {Exception.class})
 	@Override
 	public void createArticleImages(ArticleDTO article) {
 
 		try {
 			List<String> imageNames = this.extractImageNames(article.getContent());
 			
+			
 			List<ArticleImageDTO> articleImages = new ArrayList<>();
 			
 			for(int i=0; i < imageNames.size(); i++) {
-				String imageName = imageNames.get(i);
+				String imageName = imageNames.get(i);	
 				ArticleImageDTO articleImage = ArticleImageDTO.builder()
 						.imageName(imageName)
 						.articleId(article.getId())
@@ -59,6 +60,19 @@ public class ArticleImageServiceImpl implements ArticleImageService {
 
 	}
 
+
+	@Transactional
+	@Override
+	public void deleteArticleImages(ArticleDTO article) {
+		List<ArticleImageDTO> savedImages = this.articleImageDAO.getArticleImages(article.getId());
+		
+		for(ArticleImageDTO image: savedImages) {
+			this.articleImageDAO.deleteImage(image);
+		}
+		
+	}
+
+
 	private List<String> extractImageNames(String html) throws URISyntaxException {
 		List<String> imageNames = new ArrayList<>();
 		Document doc = Jsoup.parse(html);
@@ -74,5 +88,12 @@ public class ArticleImageServiceImpl implements ArticleImageService {
 		}
 		return imageNames;
 	}
+
+
+
+
+
+
+
 
 }

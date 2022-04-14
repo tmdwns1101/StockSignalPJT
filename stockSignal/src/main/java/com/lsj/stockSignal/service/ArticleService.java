@@ -11,4 +11,6 @@ public interface ArticleService {
 	ArticleDTO getArticle(int articleId);
 	
 	void createArticle(ArticleDTO articleDTO);
+	
+	void updateArticle(ArticleDTO articleDTO);
 }

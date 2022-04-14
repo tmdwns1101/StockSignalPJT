@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.lsj.stockSignal.dto.ArticleDTO;
 import com.lsj.stockSignal.dto.ArticleImageDTO;
@@ -48,11 +49,27 @@ public interface ArticleDAO {
 	Optional<ArticleDTO> findArticleById(@Param("articleId") int articleId);
 	
 	
+	@Results({
+		@Result(property = "id", column = "article_id"),
+		@Result(property = "title", column = "title"),
+		@Result(property = "writer", column = "writer"),
+		@Result(property = "content", column = "content"),
+		@Result(property = "boardId", column = "board_id")
+	})
+	@Select("SELECT article_id, title, writer, content, board_id "
+			+ "FROM article "
+			+ "WHERE article_id = #{id} AND password = #{password}")
+	Optional<ArticleDTO> findArticleByIdAndPassword(ArticleDTO article);
+	
+	
 	@Select("SELECT count(article_id) FROM article WHERE board_id = #{boardId}")
 	int countTotalArticleByBoardId(@Param("boardId") int boardId);
 	
 	@Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "article_id")
 	@Insert("INSERT INTO article(title, writer, password, content, board_id) VALUES(#{title},#{writer},#{password},#{content},#{boardId})")
 	int saveArticle(ArticleDTO articleDTO);
+	
+	@Update("UPDATE article SET title = #{title}, content = #{content} WHERE article_id = #{id}")
+	void updateArticle(ArticleDTO articleDTO);
 
 }

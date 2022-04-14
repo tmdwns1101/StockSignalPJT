@@ -10,6 +10,7 @@ import com.lsj.stockSignal.dao.ArticleDAO;
 import com.lsj.stockSignal.dto.ArticleDTO;
 import com.lsj.stockSignal.dto.ArticlePagination;
 import com.lsj.stockSignal.exception.ArticleNotFound;
+import com.lsj.stockSignal.exception.NotAllowdEditArticle;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -98,7 +99,7 @@ public class ArticleServiceImpl implements ArticleService {
 		return article;
 	}
 
-	@Transactional(rollbackFor = {Exception.class})
+	@Transactional
 	@Override
 	public void createArticle(ArticleDTO articleDTO) {
 		
@@ -106,5 +107,28 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		this.articleImageService.createArticleImages(articleDTO);
 	}
+
+	@Transactional
+	@Override
+	public void updateArticle(ArticleDTO articleDTO) {
+		
+		ArticleDTO article = this.articleDAO.findArticleByIdAndPassword(articleDTO).orElseThrow(NotAllowdEditArticle::new);
+		
+		article.setTitle(articleDTO.getTitle());
+		article.setContent(article.getContent());
+		article.setPassword(articleDTO.getPassword());
+		
+		this.articleDAO.updateArticle(articleDTO);
+		
+		this.articleImageService.deleteArticleImages(articleDTO);
+		
+		this.articleImageService.createArticleImages(articleDTO);
+		
+	}
+
+	
+	
+	
+	
 
 }

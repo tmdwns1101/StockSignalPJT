@@ -35,12 +35,7 @@
 	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
 <script>
-
-	
-
 	$(document).ready(function() {
-		var html = '${article.content}';
-		
 		$('#summernote').summernote({
 			height: 300,                 // 에디터 높이
 			minHeight: null,             // 최소 높이
@@ -52,7 +47,7 @@
 					uploadSummernoteImageFile(files[0],this);
 				}
 			}
-		}).summernote('pasteHTML',html);
+		});
 		
 
         $(".note-group-image-url").remove();    //이미지 추가할 때 Image URL 등록 input 삭제 
@@ -78,16 +73,16 @@
         	
         	$.ajax({
         		data: JSON.stringify(data),
-        		type: "PUT",
+        		type: "POST",
         		contentType: "application/json; charset=utf-8",
         		datatype: "json",
-        		url: "${contextPath}/article/${article.id}",
+        		url: "${contextPath}/article/write",
         		success: function(data) {
-        			alert("수정이 성공하였습니다.")
+        			alert("등록이 성공하였습니다.")
         			location.href = "${contextPath}" + data.redirectURL;
         		},
         		error: function() {
-        			alert("수정에 실패하였습니다.");
+        			alert("등록에 실패하였습니다.");
         		}
         	})
         })
@@ -136,11 +131,11 @@
 		<input type="hidden" id="boardId" value="${boardId}"/>
 		<div class="input-group mb-3">
 			<span class="input-group-addon">제목</span>
-			<input id="title" type="text" class="form-control" placeholder="제목을 입력해주세요." value="${article.title}">
+			<input id="title" type="text" class="form-control" placeholder="제목을 입력해주세요." >
 		</div>
 		<div class="input-group mb-3">
 			<span class="input-group-addon">작성자</span>
-			<input id="writer" type="text" class="form-control" value="${article.writer}" readonly="readonly">
+			<input id="writer" type="text" class="form-control" placeholder="게시글 작성자를 입력해주세요." >
 		</div>
 		<div class="input-group mb-3">
 			<span class="input-group-addon" >비밀번호</span>
@@ -149,7 +144,7 @@
 		</div>
 		<div id="summernote"></div>
 		<textarea hidden="hidden" name="content"></textarea>
-		<button id="submitBtn" type="button" class="btn btn-success">수정하기</button>
+		<button id="submitBtn" type="button" class="btn btn-success">등록하기</button>
 	</div>
 </body>
 </html>

@@ -51,6 +51,22 @@ public class ControllerExceptionAdvice {
 		return "error404";
 	}
 	
+	@ExceptionHandler(NotAllowdEditArticle.class)
+	@ResponseBody
+	public ResponseEntity<ErrorResponse> NotAllowdEditArticleExceptionHandler(NotAllowdEditArticle e, HttpServletRequest request) {
+
+		String requestPath = request.getRequestURL().toString();
+
+		ErrorResponse errorResponse = new ErrorResponse();
+
+		errorResponse.setErrorMessage(e.getMessage());
+		errorResponse.setServicePath(requestPath);
+		errorResponse.setTimestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
+
+		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.FORBIDDEN);
+	}
+	
 	@ExceptionHandler(ReviewNotFound.class)
 	@ResponseBody
 	public ResponseEntity<ErrorResponse> ReviewNotFoundExceptionHandler(ReviewNotFound e, HttpServletRequest request) {
@@ -82,6 +98,13 @@ public class ControllerExceptionAdvice {
 		errorResponse.setTimestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
 		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.FORBIDDEN);
+	}
+	
+	@ExceptionHandler(Exception.class)
+	public String ServerErrorHandler(Exception e) {
+		log.error(e.getMessage());
+		e.printStackTrace();
+		return "error500";
 	}
 
 }

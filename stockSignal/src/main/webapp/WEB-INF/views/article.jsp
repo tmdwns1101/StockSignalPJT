@@ -104,6 +104,7 @@
 				
 			}
 		})
+	
 	})
 </script>
 	<header>
@@ -145,6 +146,7 @@
 				type="text" class="form-control" value="${article.viewCount}"
 				readonly="readonly">
 		</div>
+		<a class="btn btn-primary mb-3" href="${contextPath}/article/edit/${article.id}?boardId=${boardId}">수정하기</a>
 		<div class="border border-dark p-1">${article.content}</div>
 
 		<!-- 댓글 입력  -->
@@ -163,7 +165,10 @@
 			</div>
 			<button id="reviewCreatedBtn" type="button" class="btn btn-success mt-2">등록하기</button>
 		</div>
+		
 	</div>
+	
+
 	
 	<!-- 댓글 리스트 -->
 	<div class="container">
