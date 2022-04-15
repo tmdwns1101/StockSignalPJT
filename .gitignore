@@ -2,6 +2,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/macos,eclipse,java
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,eclipse,java
 
+### Spring ignore context.xml ###
+datasource-context.xml
+
+
 ### Eclipse ###
 .metadata
 bin/
