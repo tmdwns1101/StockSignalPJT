@@ -6,10 +6,12 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Options.FlushCachePolicy;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 
 import com.lsj.stockSignal.dto.ArticleDTO;
@@ -71,5 +73,10 @@ public interface ArticleDAO {
 	
 	@Update("UPDATE article SET title = #{title}, content = #{content} WHERE article_id = #{id}")
 	void updateArticle(ArticleDTO articleDTO);
+	
+	
+	@SelectKey(keyProperty = "viewCount", keyColumn = "view_count", before=false, resultType = Integer.class, statement = "SELECT view_count FROM article WHERE article_id = #{id}")
+	@Update("UPDATE article SET view_count = view_count + 1 WHERE article_id = #{id}")
+	void updateArticleViewCount(ArticleDTO articleDTO);
 
 }

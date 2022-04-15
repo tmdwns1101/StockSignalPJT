@@ -16,7 +16,7 @@
 	
 	<!-- include datasource context -->	
 	<import resource="datasource-context.xml"/>
-	
+
 	<bean id="sqlSession"
 		class="org.mybatis.spring.SqlSessionFactoryBean"
 		p:dataSource-ref="dataSource" />

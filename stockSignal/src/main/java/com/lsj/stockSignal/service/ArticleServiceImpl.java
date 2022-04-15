@@ -91,11 +91,15 @@ public class ArticleServiceImpl implements ArticleService {
 		return pagination;
 	}
 
+	@Transactional
 	@Override
 	public ArticleDTO getArticle(int articleId) {
 		ArticleDTO article = this.articleDAO.findArticleById(articleId).orElseThrow(ArticleNotFound::new);
+		log.info("before Update : " + article.getViewCount());
 		
+		this.articleDAO.updateArticleViewCount(article);
 		
+		log.info("after Update : " + article.getViewCount());
 		return article;
 	}
 
