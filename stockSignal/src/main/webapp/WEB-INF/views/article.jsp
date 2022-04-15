@@ -55,7 +55,7 @@
     								"<span>" + review.writer + "</span> <span class='fw-lighter'>" + "방금전"+ "</span>" +
     							"</div>" +
     							"<div class='col'>" +
-    								"<button class='btn btn-danger'>삭제</button>" +
+    								"<button name='review-delete-btn' class='btn btn-danger'>삭제</button>" +
     							"</div>" +
     						"</div>" +
     						"<div class='row mt-1'>" +
@@ -70,7 +70,7 @@
 			})
 		})
 		
-		$("button[name='review-delete-btn']").click(function() {
+		$("#reviewList").on('click', "button[name='review-delete-btn']",function() {
 			var password = prompt("비밀번호를 입력해주세요.");
 			
 			if(password == "") {

@@ -25,6 +25,9 @@ public class ControllerExceptionAdvice {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseBody
 	public ResponseEntity<ErrorResponse> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+		
+		log.error(e.getMessage());
+		
 		BindingResult br = e.getBindingResult();
 
 		List<ErrorResponse.FieldError> errors = new ArrayList<>();
@@ -55,6 +58,8 @@ public class ControllerExceptionAdvice {
 	@ResponseBody
 	public ResponseEntity<ErrorResponse> NotAllowdEditArticleExceptionHandler(NotAllowdEditArticle e, HttpServletRequest request) {
 
+		log.error(e.getMessage());
+		
 		String requestPath = request.getRequestURL().toString();
 
 		ErrorResponse errorResponse = new ErrorResponse();
@@ -71,6 +76,8 @@ public class ControllerExceptionAdvice {
 	@ResponseBody
 	public ResponseEntity<ErrorResponse> ReviewNotFoundExceptionHandler(ReviewNotFound e, HttpServletRequest request) {
 
+		log.error(e.getMessage());
+		
 		String requestPath = request.getRequestURL().toString();
 
 		ErrorResponse errorResponse = new ErrorResponse();
@@ -88,6 +95,8 @@ public class ControllerExceptionAdvice {
 	@ResponseBody
 	public ResponseEntity<ErrorResponse> passwordNotCorrectxceptionHandler(PasswordNotCorrect e,
 			HttpServletRequest request) {
+		
+		log.error(e.getMessage());
 
 		String requestPath = request.getRequestURL().toString();
 
